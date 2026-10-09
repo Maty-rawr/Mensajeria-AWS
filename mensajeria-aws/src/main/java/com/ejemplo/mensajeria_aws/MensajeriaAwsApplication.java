@@ -1,0 +1,13 @@
+package com.ejemplo.mensajeria_aws;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MensajeriaAwsApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MensajeriaAwsApplication.class, args);
+	}
+
+}
