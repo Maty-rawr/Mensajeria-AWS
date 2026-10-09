@@ -33,6 +33,6 @@ public class EstadoController {
 		String url = sqs.getQueueUrl(r -> r.queueName(cola)).join().queueUrl();
 		String valor = sqs.getQueueAttributes(r -> r.queueUrl(url).attributeNames(nombre))
 				.join().attributes().get(nombre);
-		return Long.parseLong(valor);
+		return valor == null ? 0L : Long.parseLong(valor);
 	}
 }

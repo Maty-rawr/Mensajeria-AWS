@@ -34,13 +34,18 @@ public class OrdenListener {
 			log.warn("Orden {} duplicada, se ignora", orden.id());
 			return;
 		}
+
 		try {
 			procesador.procesar(orden);
 			procesadas.add(orden.id());
+			log.info("Orden {} procesada correctamente", orden.id());
 		} catch (ErrorDefinitivo e) {
-			log.error("Orden {} descartada: {}", orden.id(), e.getMessage());
-			sqsTemplate.send(props.dlqOrdenes(), orden);
+			log.error("Orden {} descartada por error definitivo: {}", orden.id(), e.getMessage());
+			sqsTemplate.send(props.dlqOrdenes(), orden); // Se confirma el mensaje y se mueve a la DLQ
 			procesadas.add(orden.id());
+		} catch (ErrorTransitorio e) {
+			log.warn("Orden {} falló de forma transitoria: {}. Se reintenta.", orden.id(), e.getMessage());
+			throw e; // permite que SQS reintente el mensaje sin confirmar
 		}
 	}
 }
