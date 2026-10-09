@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(originPatterns = {"http://localhost:5173", "https://*.devtunnels.ms"})
 public class OrdenController {
 
 	private static final Logger log = LoggerFactory.getLogger(OrdenController.class);
